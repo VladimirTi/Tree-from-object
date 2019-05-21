@@ -1,33 +1,36 @@
 var data = {
-  "Рыбы": {
-    "Форель": {},
-    "Щука": {}
+  'Рыбы': {
+    'Форель': {},
+    'Щука': {}
   },
 
-  "Деревья": {
-    "Хвойные": {
-      "Лиственница": {},
-      "Ель": {}
+  'Деревья': {
+    'Хвойные': {
+      'Лиственница': {},
+      'Ель': {}
     },
-    "Цветковые": {
-      "Берёза": {},
-      "Тополь": {}
+    'Цветковые': {
+      'Берёза': {},
+      'Тополь': {}
     }
   }
 };
 
-function createHTML (obj) {
-  let temp = ''
-  let mainHTML = ''
+function isEmpty (obj) {return Object.keys(obj).length > 0 ? false : true}
+
+function createHTML (container, obj) {
+  let mainHTML = document.createElement('ul');
+  
   for (let key in obj) {
-    temp += `<li>${key}${createHTML(obj[key])}</li>`
-    mainHTML = `<ul>${temp}</ul>`
+    let element = document.createElement('li');
+    element.append(key)
+    mainHTML.append(element)
+    if (!isEmpty(obj[key])) {
+      createHTML(mainHTML, obj[key]);
+    }
   }
-  return mainHTML
+  container.append(mainHTML)
 }
 
-function createTree(element, obj) {
-  element.innerHTML = createHTML(obj)
-}
 
-createTree(document.getElementById("tree"), data)
+createHTML(document.getElementById('tree'), data);
